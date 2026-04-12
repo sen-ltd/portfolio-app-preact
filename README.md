@@ -107,3 +107,10 @@ MIT. See [LICENSE](./LICENSE).
 ---
 
 Part of the [SEN portfolio series](https://sen.ltd/portfolio/). Entry 030.
+
+<!-- sen-publish:links -->
+## Links
+
+- 🌐 Demo: https://sen.ltd/portfolio/portfolio-app-preact/
+- 📝 dev.to: https://dev.to/sendotltd/preact-port-same-react-source-code-swap-the-runtime-get-875-kb-gzip-82-series-finale-33i
+<!-- /sen-publish:links -->
