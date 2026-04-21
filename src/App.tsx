@@ -3,6 +3,7 @@ import type { PortfolioData, Entry, Lang } from './types';
 import { loadPortfolioData } from './data';
 import { filterAndSort, type FilterState, type SortKey } from './filter';
 import { MESSAGES, detectDefaultLang } from './i18n';
+import { GitHubIcon, XIcon, QiitaIcon, DevToIcon } from './icons';
 
 type Status =
   | { kind: 'loading' }
@@ -259,25 +260,81 @@ function EntryCard({
             ↗ {m.demoLabel}
           </a>
         )}
-        {entry.github && (
-          <a href={entry.github} className="action-btn" target="_blank" rel="noopener">
-            {m.githubLabel}
-          </a>
-        )}
-        {entry.articles.length > 0 && (
-          <div className="articles">
-            {entry.articles.map((a) => (
-              <a key={a.url} href={a.url} className="article-link" target="_blank" rel="noopener">
-                {a.platform}
-              </a>
-            ))}
-          </div>
-        )}
+        <IconLinks entry={entry} lang={lang} />
         {entry.testCount !== undefined && entry.testCount > 0 && (
           <span className="tests-badge">{m.testsLabel(entry.testCount)}</span>
         )}
       </div>
     </article>
+  );
+}
+
+function IconLinks({ entry, lang }: { entry: Entry; lang: Lang }) {
+  const qiita = entry.articles.find((a) => a.platform === 'qiita');
+  const devto = entry.articles.find((a) => a.platform === 'devto');
+  const sen = entry.articles.find((a) => a.platform === 'sen');
+  const twitter = entry.social?.twitter;
+
+  if (!entry.github && !twitter && !qiita && !devto && !sen) return null;
+
+  return (
+    <div className="icon-links">
+      {entry.github && (
+        <a
+          href={entry.github}
+          className="icon-link"
+          target="_blank"
+          rel="noopener"
+          title="GitHub"
+        >
+          <GitHubIcon />
+        </a>
+      )}
+      {twitter && (
+        <a
+          href={twitter}
+          className="icon-link"
+          target="_blank"
+          rel="noopener"
+          title="X (Twitter)"
+        >
+          <XIcon />
+        </a>
+      )}
+      {qiita && (
+        <a
+          href={qiita.url}
+          className="icon-link"
+          target="_blank"
+          rel="noopener"
+          title="Qiita"
+        >
+          <QiitaIcon />
+        </a>
+      )}
+      {devto && (
+        <a
+          href={devto.url}
+          className="icon-link"
+          target="_blank"
+          rel="noopener"
+          title="dev.to"
+        >
+          <DevToIcon />
+        </a>
+      )}
+      {sen && !qiita && (
+        <a
+          href={sen.url}
+          className="article-badge"
+          target="_blank"
+          rel="noopener"
+          title={lang === 'ja' ? 'JA 記事' : 'Japanese article'}
+        >
+          {lang === 'ja' ? '記事' : 'JA'}
+        </a>
+      )}
+    </div>
   );
 }
 
